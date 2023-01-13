@@ -28,6 +28,11 @@ void main() {
             label: "Profile",
           ),
 
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: "Setting",
+          ),
+
         ],
 
       ),
