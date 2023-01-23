@@ -13,26 +13,27 @@ class homePage extends StatefulWidget {
 
 class _homePageState extends State<homePage> {
 
-  final List<String> entries = [];
+  final List<String> entries = ['Apple','Orange'];
   final textController = TextEditingController();
 
 
   @override
   Widget build(BuildContext context) {
     entries.sort();
+    
     return MaterialApp(
 
     debugShowCheckedModeBanner: false,
 
     theme: ThemeData(brightness: Brightness.light),
-    darkTheme: ThemeData(brightness: Brightness.dark),
-    themeMode: ThemeMode.system,
+    //darkTheme: ThemeData(brightness: Brightness.dark),
+    //themeMode: ThemeMode.system,
 
     home: Scaffold(
       appBar: AppBar(
         title: TextField( controller: textController,),
 
-        leading: Icon(Icons.person),
+        leading: const Icon(Icons.person),
         leadingWidth: 56,
         actions: <Widget>[
           IconButton(
@@ -45,13 +46,24 @@ class _homePageState extends State<homePage> {
         ],
         backgroundColor: Colors.deepOrange[100],
           ),
-      body: entries.length > 0 ? ListView.builder(
+      body: entries.length > 0 ? ListView.separated(
         itemCount: entries.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text('${entries[index]}'),
+            title: Center(child: Text('${entries[index]}')),
+            //tileColor: Color.fromARGB(255, 247, 242, 241),
+            
+            onLongPress: (() {
+              setState(() {
+                 entries.removeAt(index);
+              });
+            }),
+            
           );
-        })
+        },
+        separatorBuilder: (context, index) {
+    return Divider();
+  },)
       : Center(
         child: Text("Your list is empty."),
         ),
