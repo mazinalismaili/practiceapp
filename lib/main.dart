@@ -13,9 +13,9 @@ class homePage extends StatefulWidget {
 
 class _homePageState extends State<homePage> {
 
-  final List<String> entries = ['Apple','Orange'];
+  final List<String> entries = ['Apple','Orange','Banana'];
   final textController = TextEditingController();
-
+  final List<int> colorCodes = <int>[300, 200, 100];
 
   @override
   Widget build(BuildContext context) {
@@ -44,26 +44,37 @@ class _homePageState extends State<homePage> {
             },
           ),
         ],
-        backgroundColor: Colors.deepOrange[100],
+        backgroundColor: Color(0xFF913175),
           ),
       body: entries.length > 0 ? ListView.separated(
         itemCount: entries.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Center(child: Text('${entries[index]}')),
-            //tileColor: Color.fromARGB(255, 247, 242, 241),
+        // return ListTile(
+        //     subtitle: Text(entries[index]),
+        //     title: Center(child: Text('${entries[index]}')),
+        //     tileColor: Colors.pink[colorCodes[index]],
+        //     //tileColor: Color.fromARGB(255, 247, 242, 241),
             
-            onLongPress: (() {
-              setState(() {
-                 entries.removeAt(index);
-              });
-            }),
+        //     onLongPress: (() {
+        //       setState(() {
+        //          entries.removeAt(index);
+        //       });
+        //     }),
             
-          );
+        //   );
+
+          return Container(
+                  margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10,bottom: 10),
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Color.fromARGB(66, 245, 205, 144)),
+                  height: 100,
+                  width: 100,
+                  child: Center(child:Text(entries[index])),
+ );
         },
-        separatorBuilder: (context, index) {
-    return Divider();
-  },)
+        separatorBuilder: (context, index) { return Divider();},
+        )
       : Center(
         child: Text("Your list is empty."),
         ),
@@ -88,7 +99,7 @@ class _homePageState extends State<homePage> {
           )
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.red[900],
+          backgroundColor: Color(0xFF913175),
           child: Icon(Icons.add),
           onPressed: (){
             setState(() {
@@ -99,8 +110,8 @@ class _homePageState extends State<homePage> {
           ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed, // Fixed 
-        backgroundColor: Colors.deepOrange[100], // <-- This works for fixed
-        selectedItemColor: Colors.red[900],
+        backgroundColor: Color(0xFF913175), // <-- This works for fixed
+        selectedItemColor: Color.fromARGB(255, 110, 30, 86),
         unselectedItemColor: Colors.white,
         items: const <BottomNavigationBarItem> [
           BottomNavigationBarItem(
