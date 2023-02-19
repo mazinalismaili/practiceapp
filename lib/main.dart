@@ -101,7 +101,8 @@ class _homePageState extends State<homePage> {
                         
           //  );
               },
-              separatorBuilder: (context, index) { return Divider();},
+              separatorBuilder: (context, index) { 
+                return Divider();},
               )
             : const Center(
               child: Text('Your list is empty.'),
@@ -125,11 +126,20 @@ class _homePageState extends State<homePage> {
             ),
         ],
       ),
-      
       drawer: Drawer(
+        
         child: ListView(
               //shrinkWrap: true,
               children: const <Widget>[
+                Padding(padding: EdgeInsets.zero),
+                DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 243, 229, 245),
+                    border: Border(bottom: BorderSide.none),
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                  ),
+                  child: Text('Mazin Al Ismaili'),
+                ),
                 ListTile(
                   leading: Icon(Icons.add),
                   title: Text("Add"),
