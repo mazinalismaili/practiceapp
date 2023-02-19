@@ -13,71 +13,118 @@ class homePage extends StatefulWidget {
 
 class _homePageState extends State<homePage> {
 
-  final List<String> entries = ['Apple','Orange','Banana'];
+  List<String> groceries = ['Apple','Orange','Banana'];
+  List<double> prices = [0.99,1.09,2.99];
   final textController = TextEditingController();
-  final List<int> colorCodes = <int>[300, 200, 100];
+  final priceController = TextEditingController();
+  double getTotalPrice (List<double> p){
+    double totalPrice = 0;
+    for(var price in p){
+      totalPrice += price;
+    }
+    return totalPrice;
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    entries.sort();
+    //groceries.sort();
     
     return MaterialApp(
 
     debugShowCheckedModeBanner: false,
 
-    theme: ThemeData(brightness: Brightness.light),
+    theme: ThemeData(
+      brightness: Brightness.light,
+      useMaterial3: true,
+      ),
     //darkTheme: ThemeData(brightness: Brightness.dark),
     //themeMode: ThemeMode.system,
-
+    title: 'Grocery App',
     home: Scaffold(
       appBar: AppBar(
-        title: TextField( controller: textController,),
+        title: Center(child: Text('Grocery App List',),),
 
-        leading: const Icon(Icons.person),
-        leadingWidth: 56,
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.list),
-            tooltip: 'more options',
-            onPressed: () {
-              // handle the press
-            },
-          ),
-        ],
+        // leading: const Icon(Icons.person),
+        // leadingWidth: 56,
+        // actions: <Widget>[
+        //   IconButton(
+        //     icon: const Icon(Icons.list),
+        //     tooltip: 'more options',
+        //     onPressed: () {
+        //       // handle the press
+        //     },
+        //   ),
+        // ],
         backgroundColor: Color(0xFF913175),
           ),
-      body: entries.length > 0 ? ListView.separated(
-        itemCount: entries.length,
-        itemBuilder: (context, index) {
-        // return ListTile(
-        //     subtitle: Text(entries[index]),
-        //     title: Center(child: Text('${entries[index]}')),
-        //     tileColor: Colors.pink[colorCodes[index]],
-        //     //tileColor: Color.fromARGB(255, 247, 242, 241),
-            
-        //     onLongPress: (() {
-        //       setState(() {
-        //          entries.removeAt(index);
-        //       });
-        //     }),
-            
-        //   );
-
-          return Container(
-                  margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10,bottom: 10),
-                  decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Color.fromARGB(66, 245, 205, 144)),
-                  height: 100,
-                  width: 100,
-                  child: Center(child:Text(entries[index])),
- );
-        },
-        separatorBuilder: (context, index) { return Divider();},
-        )
-      : Center(
-        child: Text("Your list is empty."),
-        ),
+      body: Column(
+        children: [
+          SizedBox(height: 20,),
+          Container(
+            margin: EdgeInsets.only(left: 10, right: 10),
+            child: TextField(controller: textController,
+            decoration:InputDecoration(labelText: 'Enter the item here',border: OutlineInputBorder(gapPadding: 0)),
+            ),
+          ),
+          SizedBox(height: 20,),
+          Container(
+            margin: EdgeInsets.only(left: 10,right: 10),
+            child: TextField(controller: priceController,
+            decoration: InputDecoration(labelText: 'Enter the price here',border: OutlineInputBorder(gapPadding: 0)),),
+          ),
+          //SizedBox(height: 20,),
+          Expanded(
+            child: groceries.length > 0 ? ListView.separated(
+              itemCount: groceries.length,
+              itemBuilder: (context, index) {
+              return ListTile(
+                  subtitle: Text('\$${prices[index].toString()}'),
+                  title: Text('${groceries[index]}'),
+                  onLongPress: (() {
+                    setState(() {
+                       groceries.removeAt(index);
+                       prices.removeAt(index);
+                    });
+                  }),
+                  
+                );
+          
+          //           return Container(
+          //                   margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10,bottom: 10),
+          //                   decoration: BoxDecoration(
+          //                   borderRadius: BorderRadius.circular(10),
+          //                   color: Color.fromARGB(66, 245, 205, 144)),
+          //                   height: 100,
+          //                   width: 100,
+          //                   child: Center(child:Text(entries[index])),
+                        
+          //  );
+              },
+              separatorBuilder: (context, index) { return Divider();},
+              )
+            : const Center(
+              child: Text('Your list is empty.'),
+              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(30),
+            child: Container(
+              height: 30,
+              width: 100,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Color.fromARGB(92, 96, 125, 139),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color:Colors.grey)
+              ),
+              child: Text('Total: \$${getTotalPrice(prices)}'),
+              
+              
+            )
+            ),
+        ],
+      ),
       
       drawer: Drawer(
         child: ListView(
@@ -100,11 +147,15 @@ class _homePageState extends State<homePage> {
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color(0xFF913175),
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
           onPressed: (){
             setState(() {
-              entries.add(textController.text);
+              groceries.add(textController.text);
+              prices.add(double.parse(priceController.text));
+              priceController.clear();
               textController.clear();
+              print(groceries);
+              print(prices);
             });
           },
           ),
